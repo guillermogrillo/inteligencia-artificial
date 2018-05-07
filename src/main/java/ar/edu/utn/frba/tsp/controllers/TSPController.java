@@ -25,8 +25,7 @@ public class TSPController {
 
     @PostMapping
     public ResponseEntity<RespuestaTSP> calcular(@RequestBody List<Ciudad> ciudades) {
-        double distanciaTotal = tspService.calcularDistancia(ciudades);
-        RespuestaTSP respuesta = new RespuestaTSP(ciudades,distanciaTotal);
+        RespuestaTSP respuesta = tspService.calcularDistanciaMinima(ciudades);
         ResponseEntity<RespuestaTSP> respuestaHttp = new ResponseEntity<RespuestaTSP>(respuesta, HttpStatus.OK);
         return respuestaHttp;
     }
