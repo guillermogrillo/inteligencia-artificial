@@ -20,7 +20,7 @@ public class CiudadController {
 
     @GetMapping
     public List<Ciudad> getCiudad() {
-        return ciudadService.getCiudades();
+        return ciudadService.getAllCiudades();
     }
 
 }

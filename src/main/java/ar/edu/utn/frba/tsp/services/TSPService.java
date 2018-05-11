@@ -29,7 +29,7 @@ public class TSPService {
         Engine<EnumGene<Ciudad>, Double> engine = Engine
                 .builder(tsm)
                 .optimize(Optimize.MINIMUM)
-                .populationSize(500)
+                .populationSize(20)
                 .alterers(
                         new SwapMutator<>(0.2),
                         new PartiallyMatchedCrossover<>(0.35))
@@ -40,8 +40,8 @@ public class TSPService {
 
         Phenotype<EnumGene<Ciudad>,Double> best =
                 engine. stream ( )
-                        .limit(Limits.bySteadyFitness(25))
-                        .limit(250)
+                        //.limit(Limits.bySteadyFitness(80))
+                        .limit(40000)
                         .peek(statistics)
                         .collect(EvolutionResult.toBestPhenotype());
 
