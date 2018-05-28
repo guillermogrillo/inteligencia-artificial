@@ -7,16 +7,16 @@ import io.jenetics.util.ISeq;
 import io.jenetics.util.MSeq;
 import io.jenetics.util.RandomRegistry;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Function;
+import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
 
 public class TravelingSalesman implements Problem<ISeq<Ciudad>, EnumGene<Ciudad>, Double> {
 
     private final ISeq<Ciudad> _points;
+    public List<Double> doubles = new ArrayList<>();
 
     public TravelingSalesman(ISeq<Ciudad> points) {
         _points = Objects.requireNonNull(points);
@@ -29,11 +29,16 @@ public class TravelingSalesman implements Problem<ISeq<Ciudad>, EnumGene<Ciudad>
 
     @Override
     public Function<ISeq<Ciudad>, Double> fitness() {
-        return p -> IntStream.range(0, p.length()).mapToDouble(i -> {
-            final Ciudad c1 = p.get(i);
-            final Ciudad c2 = p.get((i + 1) % p.size());
-            return Math.hypot(c1.getLatitud() - c2.getLatitud(), c1.getLongitud() - c2.getLongitud());
-        }).sum();
+        return p -> {
+            double sum = IntStream.range(0, p.length()).mapToDouble(i -> {
+                final Ciudad c1 = p.get(i);
+                final Ciudad c2 = p.get((i + 1) % p.size());
+                return Math.hypot(c1.getLatitud() - c2.getLatitud(), c1.getLongitud() - c2.getLongitud());
+            }).sum();
+
+            doubles.add(sum);
+            return sum;
+        };
     }
 
     public static TravelingSalesman of(List<Ciudad> ciudades) {

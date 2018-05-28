@@ -7,13 +7,13 @@ import io.jenetics.*;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
 import io.jenetics.engine.EvolutionStatistics;
-import io.jenetics.engine.Limits;
-import io.jenetics.util.Factory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -55,6 +55,15 @@ public class TSPService {
         while(iterator.hasNext()){
             EnumGene<Ciudad> next = iterator.next();
             orden.add(next.getAllele());
+        }
+
+
+
+        String content = tsm.doubles.toString();
+        try {
+            Files.write(Paths.get("output.txt"), content.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         RespuestaTSP respuestaTSP = new RespuestaTSP(orden,best.getFitness());
